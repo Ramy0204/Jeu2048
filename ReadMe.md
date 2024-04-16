@@ -12,17 +12,13 @@ Jeu2048 est une implémentation en C++ du célèbre jeu de puzzle à blocs couli
 Pour commencer à utiliser Jeu2048, suivez ces étapes simples :
 1. Clonez le dépôt : `git clone https://github.com/Ramy0204/Jeu2048.git`
 2. Naviguez dans le dossier du projet.
-3. Compilez le code source avec votre compilateur C++ favori.
-4. Exécutez le jeu à partir du terminal ou de l'environnement de développement intégré.
+3. Compilez le code source et l'executer avec la commande "make jeu"
+4. Profitez de jouer à votre jeu préféré!
 
 ## Contributions
 Les contributions sont toujours les bienvenues ! Si vous souhaitez améliorer le Jeu2048, veuillez forker le dépôt, créer une nouvelle branche pour vos modifications, et soumettre une pull request après vos commits.
-
-## Licence
-Ce projet est sous licence MIT. Pour plus de détails, veuillez consulter le fichier LICENSE dans le dépôt.
 
 ## Auteurs
 - Ramy (Créateur et Développeur principal)
 - Majid (Contributeur spirituel et inspirateur involontaire)
 
-Nous espérons que vous apprécierez Jeu2048 !
