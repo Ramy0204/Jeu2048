@@ -25,6 +25,6 @@ Pour commencer à utiliser Jeu2048, suivez ces étapes simples :
 Les contributions sont toujours les bienvenues ! Si vous souhaitez améliorer le Jeu2048, veuillez forker le dépôt, créer une nouvelle branche pour vos modifications, et soumettre une pull request après vos commits.
 
 ## Auteurs
-- Ramy (Créateur et Développeur principal)
-- Majid (Contributeur spirituel et inspirateur involontaire)
+- Ramy
+- Majid 
 
