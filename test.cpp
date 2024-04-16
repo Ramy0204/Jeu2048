@@ -92,7 +92,7 @@ int interactif(int dim, int cible, int proportion) {
       if (perdu(g)){
         affiche(g);
         cout << "Vous avez perdu! " <<endl;
-        break;
+        return 0;
       }else{
         cout << "ce mouvement est impossible veuillez reessayer! " << endl;
         affiche(g);
@@ -100,7 +100,7 @@ int interactif(int dim, int cible, int proportion) {
     }else if (succes(g)){
       affiche(g);
       cout << "Partie gagner! " << endl;
-      break;
+      return 0;
     }
     else{
       ajout_tuile(g);
@@ -111,6 +111,17 @@ int interactif(int dim, int cible, int proportion) {
       cout << "choisir movement (w,a,s,d) ou q pour quitter : ";
       cin >> choix;
     }while(choix != 'a' and choix != 'w' and choix != 's' and choix != 'd' and choix != 'q');
+  }
+  char question;
+  do{
+    cout << "Veut tu sauveguarder ta partie (y/n)? ";
+    cin >> question;
+  }while (question != 'y' and question != 'n');
+  switch  (question){
+    case 'y':
+      sauve(g, "save");
+    case 'n':
+      break;
   }
   return 0;
 }

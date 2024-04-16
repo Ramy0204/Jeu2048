@@ -2,6 +2,7 @@
 #include <time.h>  // pour time
 #include <iostream>
 #include <vector>
+#include <fstream>
 
 using namespace std;
 

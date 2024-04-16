@@ -231,6 +231,14 @@ int bas(Grille &g)     {
 
 /*		 Pour les extensions éventuelles */
 void sauve(const Grille &g, string filename) {
+  ofstream fichier("./saves/" + filename + ".txt");
+  for (int i = 0; i < g.dimension; i+=1){
+    for (int j = 0; j < g.dimension; j+= 1){
+      fichier << g.table.at(i).at(j) << " ";
+    }
+    fichier << endl;
+  }
+  fichier.close();
 
 }
 
