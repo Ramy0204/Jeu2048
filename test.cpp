@@ -4,52 +4,67 @@
 /* A faire dans un second temps: petit menu pour exécuter les commandes de
  * l'utilisateur
  */
-int interactif(int dim, int cible, int proportion);
+int interactif(Grille &g);
 void testFV();
+void Parametres(Grille &g){
+  int choix = 0;
+  cout << "\033[2J";// efface l'ecra
+  cout << "1. dimension (default = 4): " << g.dimension << endl;
+  cout << "2. cible (default = 2048): " << g.cible << endl;
+  cout << "3. proportion (default = 9): " << g.proportion << endl;
+  cout << "4. Retour au menu principal. ";
+  do{
+    cout << "\nChoissisez  une option a changer: " ;
+    cin >> choix;
+  }while(choix > 4 or choix == 0);
+  switch (choix){
+    case 1:
+      cout << "veuillez choisir une nouvelle dimension du tableau: ";
+      cin >> g.dimension;
+      break;
+    case 2:
+      cout << "veuillez entrer une nouvelle cible: ";
+      cin >> g.cible;
+      break;
+    case 3:
+      cout << "Veuillez entrez une nouvelle valeur de la proportion: ";
+      cin >> g.proportion;
+    case 4:
+      break;
+    
+  }
+}
+
+int load(Grille &g){
+  restaure(g, "save");
+  return 0;
+}
 
 void menu(){
+  Grille g;
   int dim = 4, cible = 2048, proportion = 9, quit = 0;
+  
   unsigned int choix;
   do{
+    init(g, dim, cible, proportion);
     cout << "\033[2J";// efface l'ecran
-    cout << "1. Lancer le jeu \n2. Choisir parametres \n3. Lancer Teste \n4. Quitter" << endl;
+    cout << "1. Lancer une nouvelle partie \n2. Choisir parametres \n3. Lancer Teste \n4. Quitter" << endl;
     do{
         cout << "choisir une des options: ";
         cin >> choix;
       }while(choix >  4 or choix == 0);
   switch (choix){
     case 1:
-      cout << "\033[2J";// efface l'ecra
+      char w;
+      cout << "\033[2J";// efface l'ecran
+      cout << "veut tu continuer la derniere partie sauvegarder (y/n)? ";
+      cin >> w;
+      if (w== 'y'){load(g);}
       resetRand(true);
-      interactif(dim, cible, proportion);
+      interactif(g);
       break;
     case 2:
-      choix = 0;
-      cout << "\033[2J";// efface l'ecra
-      cout << "1. dimension (default = 4): " << dim << endl;
-      cout << "2. cible (default = 2048): " << cible << endl;
-      cout << "3. proportion (default = 9): " << proportion << endl;
-      cout << "4. Retour au menu principal. ";
-      do{
-        cout << "\nChoissisez  une option a changer: " ;
-        cin >> choix;
-      }while(choix > 4 or choix == 0);
-      switch (choix){
-        case 1:
-          cout << "veuillez choisir une nouvelle dimension du tableau: ";
-          cin >> dim;
-          break;
-        case 2:
-          cout << "veuillez entrer une nouvelle cible: ";
-          cin >> cible;
-          break;
-        case 3:
-          cout << "Veuillez entrez une nouvelle valeur de la proportion: ";
-          cin >> proportion;
-        case 4:
-          break;
-        
-      }
+      Parametres(g);
       break;
     case 3:
       testFV();
@@ -63,10 +78,8 @@ void menu(){
     }
   }while(quit == 0);
 }
-int interactif(int dim, int cible, int proportion) {
+int interactif(Grille &g) {
   // a faire ulterieurement
-  Grille g;
-  assert(init(g, dim, cible, proportion)); // exemple d'initialisation d'une grille.
   char choix;
   int m;
   affiche(g);

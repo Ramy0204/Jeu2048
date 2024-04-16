@@ -232,6 +232,9 @@ int bas(Grille &g)     {
 /*		 Pour les extensions éventuelles */
 void sauve(const Grille &g, string filename) {
   ofstream fichier("./saves/" + filename + ".txt");
+  fichier << g.dimension << endl;
+  fichier << g.cible << endl;
+  fichier << g.proportion << endl; 
   for (int i = 0; i < g.dimension; i+=1){
     for (int j = 0; j < g.dimension; j+= 1){
       fichier << g.table.at(i).at(j) << " ";
@@ -239,12 +242,23 @@ void sauve(const Grille &g, string filename) {
     fichier << endl;
   }
   fichier.close();
-
 }
 
 
 void restaure(Grille &g, string filename) {
-
+  ifstream  fichier("./saves/" + filename + ".txt");
+  fichier >> g.dimension;
+  int cible; 
+  fichier >> cible;
+  int proportion;
+  fichier >> proportion;
+  vector<vector <int>> v (g.dimension , vector<int> (g.dimension, 0));
+  for (size_t i = 0; i < g.dimension; i+=1){
+    for (size_t j = 0; j < g.dimension; j += 1){
+      fichier >> v.at(i).at(j);
+    }
+  }
+  charge(g, v, cible, proportion);  
 }
 
 
