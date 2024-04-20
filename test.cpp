@@ -8,7 +8,7 @@ int interactif(Grille &g);
 void testFV();
 void Parametres(Grille &g){
   int choix = 0;
-  cout << "\033[2J";// efface l'ecra
+  cout << "\033[2J";// efface l'ecran
   cout << "1. dimension (default = 4): " << g.dimension << endl;
   cout << "2. cible (default = 2048): " << g.cible << endl;
   cout << "3. proportion (default = 9): " << g.proportion << endl;
@@ -43,10 +43,14 @@ int load(Grille &g){
 void menu(){
   Grille g;
   int dim = 4, cible = 2048, proportion = 9, quit = 0;
-  
   unsigned int choix;
+  init(g, dim, cible, proportion);
   do{
-    init(g, dim, cible, proportion);
+    dim = g.dimension;
+    cible = g.cible;
+    proportion = g.proportion;
+
+    
     cout << "\033[2J";// efface l'ecran
     cout << "1. Lancer une nouvelle partie \n2. Choisir parametres \n3. Lancer Teste \n4. Quitter" << endl;
     do{
@@ -55,12 +59,13 @@ void menu(){
       }while(choix >  4 or choix == 0);
   switch (choix){
     case 1:
+      load(g);
       char w;
-      cout << "\033[2J";// efface l'ecran
       cout << "veut tu continuer la derniere partie sauvegarder (y/n)? ";
       cin >> w;
-      if (w== 'y'){load(g);}
+      if (w== 'n'){init(g, dim, cible, proportion);}
       resetRand(true);
+      cout << "\033[2J";// efface l'ecran
       interactif(g);
       break;
     case 2:
@@ -79,7 +84,7 @@ void menu(){
   }while(quit == 0);
 }
 int interactif(Grille &g) {
-  // a faire ulterieurement
+  // a verifier si double fusion possible (verifier???)
   char choix;
   int m;
   affiche(g);
@@ -104,8 +109,24 @@ int interactif(Grille &g) {
       
       if (perdu(g)){
         affiche(g);
-        cout << "Vous avez perdu! " <<endl;
-        return 0;
+        char question;
+        cout << "Vous avez perdu !" << endl;
+        do{
+          cout << "Veut tu recomencer une partie(y/n)? ";
+          cin >> question;
+        }while(question != 'y' and question != 'n');
+        switch (question)
+        {
+          case 'y':
+          init(g, g.dimension, g.cible, g.proportion);
+          cout << "\033[2J";
+
+          interactif(g);
+          return 0;
+        
+          default:
+            return 0;
+        }
       }else{
         cout << "ce mouvement est impossible veuillez reessayer! " << endl;
         affiche(g);
@@ -113,7 +134,22 @@ int interactif(Grille &g) {
     }else if (succes(g)){
       affiche(g);
       cout << "Partie gagner! " << endl;
-      return 0;
+      char question;
+      do{
+          cout << "Veut tu recomencer une partie(y/n)? ";
+          cin >> question;
+        }while(question != 'y' and question != 'n');
+        switch (question)
+        {
+          case 'y':
+            init(g, g.dimension, g.cible, g.proportion);
+            cout << "\033[2J";
+            interactif(g);
+            return 0;
+        
+          default:
+            return 0;
+      }
     }
     else{
       ajout_tuile(g);
@@ -126,9 +162,10 @@ int interactif(Grille &g) {
     }while(choix != 'a' and choix != 'w' and choix != 's' and choix != 'd' and choix != 'q');
   }
   char question;
+  
   do{
-    cout << "Veut tu sauveguarder ta partie (y/n)? ";
-    cin >> question;
+      cout << "Veut tu sauveguarder ta partie (y/n)? ";
+      cin >> question;
   }while (question != 'y' and question != 'n');
   switch  (question){
     case 'y':
@@ -136,6 +173,7 @@ int interactif(Grille &g) {
     case 'n':
       break;
   }
+  
   return 0;
 }
 
@@ -219,16 +257,36 @@ void teste5() {
   cout << "Teste5 OK" << endl;
 }
 
+
+void teste6(){
+  Grille g;
+  cout << "Debut du teste6" << endl;
+
+  vector<vector<int>> v =
+  {{0,0,4,0},
+   {0,0,0,0},
+   {0,0,4,0},
+   {0,0,8,0}};
+   assert(charge(g, v, 16, 9));
+   affiche(g);
+   bas(g);
+   affiche(g);
+   assert(not(succes(g)));
+   cout<<"Teste6 OK" << endl;
+}
+
+
 void testFV() {
   teste3();
   teste3bis();
   teste4();
   teste5();
+  teste6();
 }
 
 int main() {
-  resetRand(true);
-  testFV();
+  resetRand(true); 
+  //testFV();
   menu();
   return 0;
 }

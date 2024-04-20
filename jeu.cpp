@@ -247,6 +247,7 @@ void sauve(const Grille &g, string filename) {
 
 void restaure(Grille &g, string filename) {
   ifstream  fichier("./saves/" + filename + ".txt");
+  
   fichier >> g.dimension;
   int cible; 
   fichier >> cible;
