@@ -45,7 +45,7 @@ bool perdu(Grille &g) {
     }
   }
   return true;  
-
+  
 }
 
 bool ajout_tuile(Grille& g) {
