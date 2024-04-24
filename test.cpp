@@ -7,16 +7,17 @@
 int interactif(Grille &g);
 void testFV();
 void Parametres(Grille &g){
+  bool s = true;
   int choix = 0;
   cout << "\033[2J";// efface l'ecran
   cout << "1. dimension (default = 4): " << g.dimension << endl;
   cout << "2. cible (default = 2048): " << g.cible << endl;
   cout << "3. proportion (default = 9): " << g.proportion << endl;
-  cout << "4. Retour au menu principal. ";
+  cout << "4. Retour au menu principal.\n";
   do{
-    cout << "\nChoissisez  une option a changer: " ;
+    cout << "Choissisez une option a changer: " ;
     cin >> choix;
-  }while(choix > 4 or choix == 0);
+  
   switch (choix){
     case 1:
       cout << "veuillez choisir une nouvelle dimension du tableau: ";
@@ -29,10 +30,15 @@ void Parametres(Grille &g){
     case 3:
       cout << "Veuillez entrez une nouvelle valeur de la proportion: ";
       cin >> g.proportion;
+      break;
     case 4:
+      s=false;
+      break;
+    default:
       break;
     
   }
+  }while(s);
 }
 
 int load(Grille &g){
@@ -42,6 +48,7 @@ int load(Grille &g){
 
 void menu(){
   Grille g;
+
   int dim = 4, cible = 2048, proportion = 9, quit = 0;
   unsigned int choix;
   init(g, dim, cible, proportion);
@@ -49,35 +56,34 @@ void menu(){
     dim = g.dimension;
     cible = g.cible;
     proportion = g.proportion;
-
     
     cout << "\033[2J";// efface l'ecran
-    cout << "1. Lancer une nouvelle partie \n2. Choisir parametres \n3. Lancer Teste \n4. Quitter" << endl;
+    cout << "1. Lancer une nouvelle partie \n2. Continuer la derniere partie sauveguarder \n3. Choisir parametres \n4. Lancer Teste \n5. Quitter" << endl;
     do{
         cout << "choisir une des options: ";
         cin >> choix;
-      }while(choix >  4 or choix == 0);
+      }while(choix >  5 or choix == 0);
   switch (choix){
     case 1:
-      load(g);
-      char w;
-      cout << "veut tu continuer la derniere partie sauvegarder (y/n)? ";
-      cin >> w;
-      if (w== 'n'){init(g, dim, cible, proportion);}
-      resetRand(true);
+      init(g, dim, cible, proportion);
       cout << "\033[2J";// efface l'ecran
       interactif(g);
       break;
     case 2:
-      Parametres(g);
+      load(g);
+      cout << "\033[2J";// efface l'ecran
+      interactif(g);
       break;
     case 3:
+      Parametres(g);
+      break;
+    case 4:
       testFV();
       cout << "appuyez sur Entrée pour continuer";
       cin.ignore(); //ignorer tout input avant cette ligne
       cin.get(); //detecter un appuie de clavier pour continuer
       break;
-    case 4:
+    case 5:
       quit = 1;
       break;
     }
@@ -85,6 +91,7 @@ void menu(){
 }
 int interactif(Grille &g) {
   // a verifier si double fusion possible (verifier???)
+  resetRand(true);
   char choix;
   int m;
   affiche(g);
