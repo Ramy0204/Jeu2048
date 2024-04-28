@@ -231,10 +231,17 @@ int bas(Grille &g)     {
 
 /*		 Pour les extensions éventuelles */
 void sauve(const Grille &g, string filename) {
+  /*
+  On sauvegarde la grille et ses parametres dans un fichier texte sur ce format:
+  dimension
+  cible
+  proportion
+  grille
+  */
   ofstream fichier("./saves/" + filename + ".txt");
-  fichier << g.dimension << endl;
-  fichier << g.cible << endl;
-  fichier << g.proportion << endl; 
+  fichier << g.dimension << endl; // sauvegarder la dimension de la grille 
+  fichier << g.cible << endl; // sauvegarder la cible
+  fichier << g.proportion << endl; // sauvegarder la proportion
   for (int i = 0; i < g.dimension; i+=1){
     for (int j = 0; j < g.dimension; j+= 1){
       fichier << g.table.at(i).at(j) << " ";
@@ -245,7 +252,11 @@ void sauve(const Grille &g, string filename) {
 }
 
 
+
 void restaure(Grille &g, string filename) {
+  /*
+  Restaure l'état d'une grille à partir d'un fichier avec le format du fichier sauver de la fonction sauve.
+ */
   ifstream  fichier("./saves/" + filename + ".txt");
   
   fichier >> g.dimension;

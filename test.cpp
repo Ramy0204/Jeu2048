@@ -4,18 +4,22 @@
 /* A faire dans un second temps: petit menu pour exécuter les commandes de
  * l'utilisateur
  */
+bind binds = {'w', 's', 'a', 'd'};
+
 int interactif(Grille &g);
 void testFV();
 void Parametres(Grille &g){
   bool s = true;
   int choix = 0;
-  cout << "\033[2J";// efface l'ecran
-  cout << "1. dimension (default = 4): " << g.dimension << endl;
-  cout << "2. cible (default = 2048): " << g.cible << endl;
-  cout << "3. proportion (default = 9): " << g.proportion << endl;
-  cout << "4. Retour au menu principal.\n";
+  
   do{
-    cout << "Choissisez une option a changer: " ;
+    cout << "\033[2J";// efface l'ecran
+    cout << "1. dimension (default = 4): " << g.dimension << endl;
+    cout << "2. cible (default = 2048): " << g.cible << endl;
+    cout << "3. proportion (default = 9): " << g.proportion << endl;
+    cout << "4. Changer les cle de mouvements (Default : w (haut), a (gauche), s (bas), d (droite)) \n";
+    cout << "5. Retour au menu principal.\n";
+    cout << "Choissisez une option a changer: ";
     cin >> choix;
   
   switch (choix){
@@ -32,6 +36,31 @@ void Parametres(Grille &g){
       cin >> g.proportion;
       break;
     case 4:
+      cout << "\033[2J";// efface l'ecran
+      cout << "Cles de mouvements actuelles: " << binds.haut << " (haut), " << binds.gauche << " (gauche), " << binds.bas << " (bas), " << binds.droite << " (droite)" << endl;
+      cout << "veuillez entrer les nouvelles cle de mouvements (q pour annuler): \n";
+      cout << "haut: ";
+      cin >> binds.haut;
+      if (binds.haut == 'q'){
+        break;
+      }
+      cout << "gauche: ";
+      cin >> binds.gauche;
+      if (binds.gauche == 'q'){
+        break;
+      }
+      cout << "bas: ";
+      cin >> binds.bas;
+      if (binds.bas == 'q'){
+        break;
+      }
+      cout << "droite: ";
+      cin >> binds.droite;
+      if (binds.droite == 'q'){
+        break;
+      }
+      break;
+    case 5:
       s=false;
       break;
     default:
@@ -48,7 +77,6 @@ int load(Grille &g){
 
 void menu(){
   Grille g;
-
   int dim = 4, cible = 2048, proportion = 9, quit = 0;
   unsigned int choix;
   init(g, dim, cible, proportion);
@@ -99,17 +127,13 @@ int interactif(Grille &g) {
   cin >> choix;
   while (choix != 'q'){
     cout << "\033[2J";// efface l'ecran
-    switch (choix){
-      case 'w':
+    if (choix == binds.haut) {
       m = haut(g);
-      break;
-      case 's':
+    } else if (choix == binds.bas) {
       m = bas(g);
-      break;
-      case 'a':
+    } else if (choix == binds.gauche) {
       m = gauche(g);
-      break;
-      case 'd':
+    } else if (choix == binds.droite) {
       m = droite(g);
     }
     if  (m == -1){

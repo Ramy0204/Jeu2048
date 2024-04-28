@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <fstream> // added
+
 using namespace std;
 
 /* les lignes 
@@ -19,6 +20,15 @@ using namespace std;
  */
 #ifndef _JEU_2048
 #define _JEU_2048 1
+
+
+struct bind {
+    char haut;
+    char bas;
+    char gauche;
+    char droite;
+};
+
 
 typedef struct {
   int score;
