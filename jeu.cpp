@@ -265,12 +265,12 @@ void restaure(Grille &g, string filename) {
   int proportion;
   fichier >> proportion;
   vector<vector <int>> v (g.dimension , vector<int> (g.dimension, 0));
-  for (size_t i = 0; i < g.dimension; i+=1){
-    for (size_t j = 0; j < g.dimension; j += 1){
-      fichier >> v.at(i).at(j);
+  for (size_t i = 0; i < g.dimension; i+=1){ // parcourir les lignes
+    for (size_t j = 0; j < g.dimension; j += 1){ // parcourir les colonnes
+      fichier >> v.at(i).at(j); // recuperer les valeurs des tuiles
     }
   }
-  charge(g, v, cible, proportion);  
+  charge(g, v, cible, proportion); // charger la grille
 }
 
 
