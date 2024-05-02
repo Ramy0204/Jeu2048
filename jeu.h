@@ -22,12 +22,13 @@ using namespace std;
 #define _JEU_2048 1
 
 
-struct bind {
+typedef struct {
     char haut;
     char bas;
     char gauche;
     char droite;
-};
+}bind;
+
 
 
 typedef struct {

@@ -38,27 +38,15 @@ void Parametres(Grille &g){
     case 4:
       cout << "\033[2J";// efface l'ecran
       cout << "Cles de mouvements actuelles: " << binds.haut << " (haut), " << binds.gauche << " (gauche), " << binds.bas << " (bas), " << binds.droite << " (droite)" << endl;
-      cout << "veuillez entrer les nouvelles cle de mouvements (q pour annuler): \n";
+      cout << "veuillez entrer les nouvelles cle de mouvements (ne pas choisir les fleches !!!): \n";
       cout << "haut: ";
       cin >> binds.haut;
-      if (binds.haut == 'q'){
-        break;
-      }
       cout << "gauche: ";
       cin >> binds.gauche;
-      if (binds.gauche == 'q'){
-        break;
-      }
       cout << "bas: ";
       cin >> binds.bas;
-      if (binds.bas == 'q'){
-        break;
-      }
       cout << "droite: ";
       cin >> binds.droite;
-      if (binds.droite == 'q'){
-        break;
-      }
       break;
     case 5:
       s=false;
@@ -123,9 +111,9 @@ int interactif(Grille &g) {
   char choix;
   int m;
   affiche(g);
-  cout << "choisir movement (w,a,s,d) ou q pour quitter : ";
+  cout << "choisir movement (" << binds.haut << "," << binds.gauche << "," << binds.bas << "," << binds.droite << ") ou p pour quitter : ";
   cin >> choix;
-  while (choix != 'q'){
+  while (choix != 'p'){
     cout << "\033[2J";// efface l'ecran
     if (choix == binds.haut) {
       m = haut(g);
@@ -188,9 +176,9 @@ int interactif(Grille &g) {
     }
 
     do{
-      cout << "choisir movement (w,a,s,d) ou q pour quitter : ";
+      cout << "choisir movement (" << binds.haut << "," << binds.gauche << "," << binds.bas << "," << binds.droite << ") ou p pour quitter : ";
       cin >> choix;
-    }while(choix != 'a' and choix != 'w' and choix != 's' and choix != 'd' and choix != 'q');
+    }while(choix != binds.gauche and choix != binds.haut and choix != binds.bas and choix != binds.droite and choix != 'p');
   }
   char question;
   
@@ -294,10 +282,10 @@ void teste6(){
   cout << "Debut du teste6" << endl;
 
   vector<vector<int>> v =
-  {{0,0,4,0},
-   {0,0,0,0},
+  {{0,0,8,0},
    {0,0,4,0},
-   {0,0,8,0}};
+   {0,0,4,0},
+   {0,0,0,0}};
    assert(charge(g, v, 16, 9));
    affiche(g);
    bas(g);

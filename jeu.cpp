@@ -88,7 +88,7 @@ bool init(Grille &g, int dimension, int cible, int proportion) {
 // Ne pas oublier de vérifier la validité des paramètres !
 bool charge(Grille &g, vector<vector<int>> &v, int cible, int proportion) {
   size_t dim = v.size(); bool res = false;
-  if (dim < 4) {
+  if (dim < 4) { 
     cerr << "Nombre de lignes insuffisant: " << v.size() << endl;
     return res;
   }else{
@@ -96,7 +96,7 @@ bool charge(Grille &g, vector<vector<int>> &v, int cible, int proportion) {
     g.dimension = v.size();
     g.cible = cible;
     g.proportion = proportion;
-    g.table = vector<vector <int>> (g.dimension, vector<int> (g.dimension, 0));
+    g.table = vector<vector <int>> (g.dimension, vector<int> (g.dimension, 0)); // initialisation du vecteur de la grille avec g.dimension lignes et g.dimension colonnes avec des 0
     for (size_t i = 0; i < g.dimension; i++){ // parcourir les lignes 
       for (size_t j = 0; j < g.dimension; j++){ // parcourir les colonnes
         if (v.at(i).at(j) != 0) {g.table.at(i).at(j) = v.at(i).at(j);} // mettres les tuiles dans leur bonne place
@@ -110,8 +110,8 @@ bool charge(Grille &g, vector<vector<int>> &v, int cible, int proportion) {
 
 
 int droite(Grille &g)  { 
-  int res = -1; 
   int moved = 0;
+  vector<vector<bool>> merged(g.dimension, vector<bool>(g.dimension, false));
   for (size_t i=0; i<g.dimension; i++) { // pacours les lignes de haut en bas
     
     for (int j = g.dimension-2; j >= 0; j-=1){ //parcours des cases de droite a gauche pour assurer que tout les tuiles ce fussionnes dans l'ordre si possible
@@ -120,12 +120,13 @@ int droite(Grille &g)  {
         int k = j;
         while (k<g.dimension-1){ // bouger la tuile vers la droite jusqu'a trouver une case non vide, puis verifier si on peut les fusionner
           if (g.table.at(i).at(k+1) == 0){g.table.at(i).at(k+1) = g.table.at(i).at(k); g.table.at(i).at(k) =  0; moved = 1;}
-          else if (g.table.at(i).at(k+1) != 0 ){
-            if (g.table.at(i).at(k) == g.table.at(i).at(k+1)){
+          else if (g.table.at(i).at(k+1) != 0 and g.table.at(i).at(k) != 0){
+            if (g.table.at(i).at(k) == g.table.at(i).at(k+1) and !merged.at(i).at(k+1)){
               g.table.at(i).at(k+1) *= 2; 
               g.table.at(i).at(k) = 0;
               g.score += g.table.at(i).at(k+1);
               moved = 1;
+              merged.at(i).at(k+1) = true;
               }
             break;
             }
@@ -140,6 +141,7 @@ int droite(Grille &g)  {
 
 int gauche(Grille &g)  { 
   int moved = 0;
+  vector<vector<bool>> merged(g.dimension, vector<bool>(g.dimension, false));
   for (size_t i=0; i<g.dimension; i++) {// pacours les lignes de haut en bas
     
     for (int j = 0; j <= g.dimension - 1; j +=1){//parcours des cases de gauche a droite pour assurer que tout les tuiles ce fussionnes dans l'ordre si possible
@@ -148,12 +150,13 @@ int gauche(Grille &g)  {
         int k = j;
         while (k>0){ // bouger la tuile vers la gauche jusqu'a trouver une case non vide, puis verifier si on peut les fusionner
           if (g.table.at(i).at(k-1) == 0){g.table.at(i).at(k-1) = g.table.at(i).at(k); g.table.at(i).at(k) =  0; moved = 1;}
-          else if (g.table.at(i).at(k-1) != 0 ){
+          else if (g.table.at(i).at(k-1) != 0 and !merged.at(i).at(k-1)){
             if (g.table.at(i).at(k-1) == g.table.at(i).at(k)){
               g.table.at(i).at(k-1) *= 2; 
               g.table.at(i).at(k) = 0;
               g.score += g.table.at(i).at(k-1);
               moved = 1;
+              merged.at(i).at(k-1) = true;
               }
             break;
             }
@@ -170,6 +173,8 @@ int gauche(Grille &g)  {
 
 int haut(Grille &g)  { 
   int moved = 0; // pour verifier si il a eu un movement des tuiles
+  vector<vector<bool>> merged(g.dimension, vector<bool>(g.dimension, false));
+
   for (size_t i=0; i<g.dimension; i++) {// parcours des colonnes de gauche a droite
     
     for (int j = 0; j <= g.dimension - 1; j +=1){ //parcours des lignes de haut en bas
@@ -178,11 +183,12 @@ int haut(Grille &g)  {
         int k = j;
         while (k>0){// bouger la tuile vers le haut jusqu'a trouver une case non vide, puis verifier si on peut les fusionner
           if (g.table.at(k-1).at(i) == 0){g.table.at(k-1).at(i) = g.table.at(k).at(i); g.table.at(k).at(i) =  0; moved = 1;}
-          else if (g.table.at(k-1).at(i) != 0 ){
+          else if (g.table.at(k-1).at(i) != 0 and !merged.at(k-1).at(i)){
             if (g.table.at(k-1).at(i) == g.table.at(k).at(i)){
               g.table.at(k-1).at(i) *= 2; 
               g.table.at(k).at(i) = 0;
               g.score += g.table.at(k-1).at(i);
+              merged.at(k-1).at(i) = true;
               }
             break;
             }
@@ -196,12 +202,10 @@ int haut(Grille &g)  {
 
 }
 
-int bas(Grille &g)     { 
-
-  int res = -1; 
+int bas(Grille &g){
   int moved = 0;
+  vector<vector<bool>> merged(g.dimension, vector<bool>(g.dimension, false));
   for (size_t i=0; i<g.dimension; i++) {
-    
     for (int j = g.dimension-2; j >= 0; j-=1){
       if (g.table.at(j).at(i) == 0) {continue;}
       else{
@@ -209,11 +213,12 @@ int bas(Grille &g)     {
         while (k<g.dimension-1){ //bouger la tuile vers le bas jusqu'a trouver une case non vide puis verifier si on peut les fusionner
           if (g.table.at(k+1).at(i) == 0){g.table.at(k+1).at(i) = g.table.at(k).at(i); g.table.at(k).at(i) =  0; moved = 1;}
           else if (g.table.at(k+1).at(i) != 0 ){
-            if (g.table.at(k).at(i) == g.table.at(k+1).at(i)){
+            if (g.table.at(k).at(i) == g.table.at(k+1).at(i) and !merged.at(k+1).at(i)){
               g.table.at(k+1).at(i) *= 2; 
               g.table.at(k).at(i) = 0;
               g.score += g.table.at(k+1).at(i);
               moved = 1;
+              merged.at(k+1).at(i) = true;
               }
             break;
             }
@@ -232,13 +237,15 @@ int bas(Grille &g)     {
 /*		 Pour les extensions éventuelles */
 void sauve(const Grille &g, string filename) {
   /*
-  On sauvegarde la grille et ses parametres dans un fichier texte sur ce format:
+  On sauvegarde la grille et ses parametres dans un fichier texte sur ce format:\
+  score
   dimension
   cible
   proportion
   grille
   */
   ofstream fichier("./saves/" + filename + ".txt");
+  fichier << g.score << endl; // sauvegarder le score
   fichier << g.dimension << endl; // sauvegarder la dimension de la grille 
   fichier << g.cible << endl; // sauvegarder la cible
   fichier << g.proportion << endl; // sauvegarder la proportion
@@ -258,7 +265,8 @@ void restaure(Grille &g, string filename) {
   Restaure l'état d'une grille à partir d'un fichier avec le format du fichier sauver de la fonction sauve.
  */
   ifstream  fichier("./saves/" + filename + ".txt");
-  
+  int score;
+  fichier >> score;
   fichier >> g.dimension;
   int cible; 
   fichier >> cible;
@@ -271,6 +279,7 @@ void restaure(Grille &g, string filename) {
     }
   }
   charge(g, v, cible, proportion); // charger la grille
+  g.score = score; // mettre le score sauvegarder`
 }
 
 
