@@ -51,6 +51,8 @@ bool succes(const Grille &g);
 int proportion(const Grille &g), dimension(const Grille &g);
 int score(const Grille &g), vides(const Grille &g), cible(const Grille &g);
 bool ajout_tuile(Grille& g);
+bool puissance_de_deux(int n);
+
 
 // pour les éventuelles extensions
 void restaure(Grille &g, string filename);

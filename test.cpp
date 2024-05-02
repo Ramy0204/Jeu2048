@@ -30,6 +30,10 @@ void Parametres(Grille &g){
     case 2:
       cout << "veuillez entrer une nouvelle cible: ";
       cin >> g.cible;
+      while(not(puissance_de_deux(g.cible))){
+        cout << "veuillez entrer une puissance de deux: ";
+        cin >> g.cible;
+      };
       break;
     case 3:
       cout << "Veuillez entrez une nouvelle valeur de la proportion: ";

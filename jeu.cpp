@@ -85,6 +85,11 @@ bool init(Grille &g, int dimension, int cible, int proportion) {
   return res;
 }
 
+bool puissance_de_deux(int n) {
+  if (((n & (n-1)) == 0) and (n != 1)){return true;}
+  else {return false;}
+}
+
 // Ne pas oublier de vérifier la validité des paramètres !
 bool charge(Grille &g, vector<vector<int>> &v, int cible, int proportion) {
   size_t dim = v.size(); bool res = false;
@@ -105,6 +110,7 @@ bool charge(Grille &g, vector<vector<int>> &v, int cible, int proportion) {
     
     res = true;
   }
+  if (puissance_de_deux(cible) == false){res = false;}
   return res;
 }
 
