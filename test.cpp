@@ -82,7 +82,11 @@ void menu(){
     do{
         cout << "choisir une des options: ";
         cin >> choix;
-      }while(choix >  5 or choix == 0);
+        if (cin.fail()){
+          cin.clear();
+          cin.ignore();
+        }
+      }while(choix >  5 or choix == 0 && cin.fail() == false);
   switch (choix){
     case 1:
       init(g, dim, cible, proportion);
@@ -117,6 +121,10 @@ int interactif(Grille &g) {
   affiche(g);
   cout << "choisir movement (" << binds.haut << "," << binds.gauche << "," << binds.bas << "," << binds.droite << ") ou p pour quitter : ";
   cin >> choix;
+  if (cin.fail()){
+          cin.clear();
+          cin.ignore();
+    }
   while (choix != 'p'){
     cout << "\033[2J";// efface l'ecran
     if (choix == binds.haut) {
@@ -182,6 +190,10 @@ int interactif(Grille &g) {
     do{
       cout << "choisir movement (" << binds.haut << "," << binds.gauche << "," << binds.bas << "," << binds.droite << ") ou p pour quitter : ";
       cin >> choix;
+      if (cin.fail()){
+          cin.clear();
+          cin.ignore();
+        }
     }while(choix != binds.gauche and choix != binds.haut and choix != binds.bas and choix != binds.droite and choix != 'p');
   }
   char question;
