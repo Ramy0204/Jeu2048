@@ -127,7 +127,7 @@ int droite(Grille &g)  {
         int k = j;
         while (k<g.dimension-1){ // bouger la tuile vers la droite jusqu'a trouver une case non vide, puis verifier si on peut les fusionner
           if (g.table.at(i).at(k+1) == 0){g.table.at(i).at(k+1) = g.table.at(i).at(k); g.table.at(i).at(k) =  0; moved = 1;}
-          else if (g.table.at(i).at(k+1) != 0 and g.table.at(i).at(k) != 0){
+          else if (g.table.at(i).at(k+1) != 0){
             if (g.table.at(i).at(k) == g.table.at(i).at(k+1) and !merged.at(i).at(k+1)){
               g.table.at(i).at(k+1) *= 2; 
               g.table.at(i).at(k) = 0;
@@ -157,8 +157,8 @@ int gauche(Grille &g)  {
         int k = j;
         while (k>0){ // bouger la tuile vers la gauche jusqu'a trouver une case non vide, puis verifier si on peut les fusionner
           if (g.table.at(i).at(k-1) == 0){g.table.at(i).at(k-1) = g.table.at(i).at(k); g.table.at(i).at(k) =  0; moved = 1;}
-          else if (g.table.at(i).at(k-1) != 0 and !merged.at(i).at(k-1)){
-            if (g.table.at(i).at(k-1) == g.table.at(i).at(k)){
+          else if (g.table.at(i).at(k-1) != 0 ){
+            if (g.table.at(i).at(k-1) == g.table.at(i).at(k) and !merged.at(i).at(k-1)){
               g.table.at(i).at(k-1) *= 2; 
               g.table.at(i).at(k) = 0;
               g.score += g.table.at(i).at(k-1);
